@@ -1,0 +1,22 @@
+syntax = "proto3";
+package trialblaze.api.contracts.message.v1;
+
+import "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
+
+option go_package = "github.com/hamed-yousefi-tb/envoyproxy-example/pkg/api/message/common/v1;v1";
+
+//============ Common Messages ===============//
+
+message UUID {
+    string Id = 1 [(validate.rules).string.pattern = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"];
+}
+
+message Pagination {
+    int32 Limit = 1 [(validate.rules).int32.gte = 0];
+    int32 Offset = 2 [(validate.rules).int32.gte = 0];
+}
+
+enum FilterOperation {
+    LIKE = 0;
+    EQUAL = 1;
+}

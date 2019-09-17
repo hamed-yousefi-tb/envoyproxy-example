@@ -1,0 +1,32 @@
+syntax = "proto3";
+package trialblaze.api.contracts.message.contract.v1;
+
+import "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
+import "src/api/message/common/v1/common.proto";
+
+option go_package = "github.com/hamed-yousefi-tb/envoyproxy-example/pkg/api/message/contract/v1;v1";
+
+//==========Business Messages=========//
+
+message Contract {
+    trialblaze.api.contracts.message.v1.UUID Id = 1;
+    string Name = 2 [(validate.rules).string.max_len = 50];
+    bytes Content = 3 [(validate.rules).bytes.min_len = 100 , (validate.rules).bytes.max_len = 500];
+    bytes SignDate = 4 [(validate.rules).bytes.min_len = 1];
+}
+
+message GetContractsRequest {
+    trialblaze.api.contracts.message.v1.Pagination Page = 1 [(validate.rules).message.required = true];
+    Filter Filter = 2;
+}
+
+message Filter {
+    FilterColumns Column = 1 [(validate.rules).enum.defined_only = true];
+    string Value = 2;
+    trialblaze.api.contracts.message.v1.FilterOperation Operation = 3 [(validate.rules).enum.defined_only = true];
+}
+
+enum FilterColumns {
+    NO_FILTER = 0;
+    NAME = 1;
+}
